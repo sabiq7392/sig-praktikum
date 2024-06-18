@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Peta Tematik Kota Bandung</title>
+		<meta charset=utf-8 />
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+		<meta property="og:title" content="Peta Tematik Kota Bandung" />
+		<meta property="og:url" content="http://data.bandung.go.id/visualisasi" />
+		<meta property="og:image" content="preview.png" />
+		<link rel="shortcut icon" href="src/worldwide.png" type="image/png">
+		<link rel="icon" href="src/img/worldwide.png" type="image/png">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans">
+		<link rel="stylesheet" href="src/style.css">
+	</head>
+	<body>
+		
+		<div id="map"></div>
+
+		<div class="modal fade" id="statsModal">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">
+							<i class="fa fa-fw fa-bar-chart"> </i><span id="namaKecamatan"></span>
+						</h4>
+					</div>
+
+					<!-- Demografi Kependudukan -->
+					<div class="modal-body">
+						<div role="tabpanel">
+							<!-- Nav tabs -->
+							<ul class="nav nav-tabs" role="tablist">
+								<li role="presentation" class="active">
+									<a href="#kependudukan" aria-controls="kependudukan" role="tab" data-toggle="tab">Kependudukan</a>
+								</li>
+								<li role="presentation">
+									<a href="#statistikPenduduk" aria-controls="statistikPenduduk" role="tab" data-toggle="tab">Statistik Penduduk</a>
+								</li>
+								<li role="presentation">
+									<a href="#usiaSekolah" aria-controls="tab" role="tab" data-toggle="tab">Usia Sekolah</a>
+								</li>
+								<li role="presentation">
+									<a href="#sekolahDasar" aria-controls="tab" role="tab" data-toggle="tab">SD</a>
+								</li>
+								<li role="presentation">
+									<a href="#sekolahMenengahPertama" aria-controls="tab" role="tab" data-toggle="tab">SMP</a>
+								</li>
+								<li role="presentation">
+									<a href="#sekolahMenengahAtas" aria-controls="tab" role="tab" data-toggle="tab">SMA</a>
+								</li>
+								<li role="presentation">
+									<a href="#sekolahMenengahKejuruan" aria-controls="tab" role="tab" data-toggle="tab">SMK</a>
+								</li>
+								<li role="presentation">
+									<a href="#sekolahKeaksaraan" aria-controls="tab" role="tab" data-toggle="tab">Sekolah Keaksaraan</a>
+								</li>
+							</ul>
+
+							<!-- Tab panes -->
+							<div class="tab-content">
+								<div role="tabpanel" class="tab-pane active" id="kependudukan">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-3">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="populasi"></h1>
+											<p>Jumlah Penduduk (2016)</p>
+										</div>
+										<div class="col-md-3">
+											<i class="fa fa-fw fa-globe fa-4x"></i>
+											<h1 id="luasWilayah"></h1>
+											<p>Luas Wilayah (Km<sup>2</sup>)</p>
+										</div>
+										<div class="col-md-3">
+											<i class="fa fa-fw fa-map fa-4x"></i>
+											<h1 id="kawasan"></h1>
+											<p>Kawasan</p>
+										</div>
+										<div class="col-md-3">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahKelurahan"></h1>
+											<p>Jumlah Kelurahan</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="statistikPenduduk">
+									<!-- Line Graph Populasi dan Kepdatan Penduduk -->
+									<div class="text-center">
+										<div id="statistik"></div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="usiaSekolah">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<img src="src/img/osis_sd.png" height="80px">
+											<h1 id="usiaSD"></h1>
+											<p>Usia SD (7-12 Tahun)</p>
+										</div>
+										<div class="col-md-4">
+											<img src="src/img/osis_sma.png" height="80px">
+											<h1 id="usiaSMP"></h1>
+											<p>Usia SMP (13-15 Tahun)</p>
+										</div>
+										<div class="col-md-4">
+											<img src="src/img/osis_sma.png" height="80px">
+											<h1 id="usiaSMA"></h1>
+											<p>Usia SMA (16-18 Tahun)</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="sekolahDasar">
+									<!-- Jumlah Sekolah -->
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahSD"></h1>
+											<p>Sekolah Dasar</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-user fa-4x"></i>
+											<h1 id="jumlahPtkSD"></h1>
+											<p>PTK Sekolah Dasar</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="jumlahPdSD"></h1>
+											<p>Peserta Didik<br/>Sekolah Dasar</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="sekolahMenengahPertama">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahSMP"></h1>
+											<p>Sekolah Menengah Pertama</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-user fa-4x"></i>
+											<h1 id="jumlahPtkSMP"></h1>
+											<p>PTK Sekolah Menengah Pertama</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="jumlahPdSMP"></h1>
+											<p>Peserta Didik<br/>Sekolah Menengah Pertama</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="sekolahMenengahAtas">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahSMA"></h1>
+											<p>Sekolah Menengah Atas</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-user fa-4x"></i>
+											<h1 id="jumlahPtkSMA"></h1>
+											<p>PTK Sekolah Menengah Atas</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="jumlahPdSMA"></h1>
+											<p>Peserta Didik<br/>Sekolah Menengah Atas</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="sekolahMenengahKejuruan">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahSMK"></h1>
+											<p>Sekolah Menengah Kejuruan</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-user fa-4x"></i>
+											<h1 id="jumlahPtkSMK"></h1>
+											<p>PTK Sekolah Menengah Kejuruan</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="jumlahPdSMK"></h1>
+											<p>Peserta Didik<br/>Sekolah Menengah Kejuruan</p>
+										</div>
+									</div>
+								</div>
+								<div role="tabpanel" class="tab-pane" id="sekolahKeaksaraan">
+									<div class="row text-center inner-tab-modal">
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-home fa-4x"></i>
+											<h1 id="jumlahKeaksaraan"></h1>
+											<p>Sekolah Keaksaraan</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-user fa-4x"></i>
+											<h1 id="jumlahPtkKeaksaraan"></h1>
+											<p>PTK Sekolah Keaksaraan</p>
+										</div>
+										<div class="col-md-4">
+											<i class="fa fa-fw fa-users fa-4x"></i>
+											<h1 id="jumlahPdKeaksaraan"></h1>
+											<p>Peserta Didik<br/>Sekolah Keaksaraan</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<p class="text-muted text-center">
+							Sumber Data: Dinas Kependudukan dan Pencatatan Sipil, Dinas Pendidikan Kota Bandung, Kementerian Pendidikan dan Kebudayaan
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+		<script src="src/js/leaflet.label.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://code.highcharts.com/highcharts.js"></script>
+		<script src="src/js/accounting.js"></script>
+		<script src="src/js/basemap.min.js"></script>
+		<script src="src/js/tematik.min.js"></script>
+	</body>
+	
+</html>
